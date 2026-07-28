@@ -1,0 +1,16 @@
+{
+  "name": "japan-blog-project",
+  "version": "1.0.0",
+  "description": "Root workspace for the Japan Time-Capsule Blog",
+  "scripts": {
+    "dev:ghost": "cd ghost-cms && ghost start",
+    "dev:next": "cd next-frontend && npm run dev",
+    "publish": "node sync.js && cd next-frontend && npm run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tryghost/admin-api": "^1.14.8",
+    "sharp": "^0.33.2"
+  }
+}
