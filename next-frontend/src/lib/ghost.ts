@@ -1,10 +1,5 @@
-import GhostContentAPI from '@tryghost/content-api';
-
-const api = new GhostContentAPI({
-  url: process.env.NEXT_PUBLIC_GHOST_URL || process.env.GHOST_URL || 'http://localhost:2368',
-  key: process.env.NEXT_PUBLIC_GHOST_CONTENT_API_KEY || process.env.GHOST_CONTENT_API_KEY || '',
-  version: "v5.0"
-});
+// @ts-ignore
+import ghostData from './ghost-data.json';
 
 /**
  * Replaces localhost Ghost URLs with relative Next.js paths, 
@@ -24,10 +19,7 @@ function rewriteImageUrls(html: string | null) {
 
 export async function getPosts() {
   try {
-    const posts = await api.posts.browse({
-      limit: 'all',
-      include: ['tags', 'authors']
-    });
+    const posts = ghostData as any[];
     
     return posts.map(post => {
       if (post.feature_image) {
@@ -38,16 +30,16 @@ export async function getPosts() {
       return post;
     });
   } catch (err) {
-    console.warn("Ghost API Error fetching posts:", err);
+    console.warn("Error reading posts from ghost-data.json:", err);
     return [];
   }
 }
 
 export async function getPostBySlug(slug: string) {
-  const post = await api.posts.read(
-    { slug },
-    { include: ['tags', 'authors'] }
-  );
+  const posts = ghostData as any[];
+  const post = posts.find(p => p.slug === slug);
+  
+  if (!post) return null;
   
   if (post.html) {
     post.html = rewriteImageUrls(post.html);
