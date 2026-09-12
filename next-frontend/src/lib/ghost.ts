@@ -13,6 +13,8 @@ export interface GhostPost {
   html: string | null;
   feature_image: string | null;
   published_at: string | null;
+  custom_excerpt?: string | null;
+  excerpt?: string | null;
   tags: GhostTag[];
 }
 

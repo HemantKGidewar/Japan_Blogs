@@ -16,6 +16,7 @@ ghost-cms/.ghostpid
 ghost-cms/.ghost-cli
 ghost-cms/content/logs/
 ghost-cms/content/settings/
+ghost-cms/content/data/*.db
 
 # OS Files
 .DS_Store

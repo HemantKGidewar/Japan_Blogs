@@ -73,6 +73,18 @@ You can also run the command from `next-frontend/`:
 npm run dev
 ```
 
+## Create an MDX draft
+
+Create a new file-based post from the repository root:
+
+```bash
+npm run new:post -- kyoto-at-night
+```
+
+This creates `next-frontend/content/kyoto-at-night/post.mdx` and an accompanying image directory. New posts start with `status: draft`; drafts appear locally but are excluded from production builds. Change the status to `published` only when the story is ready.
+
+MDX posts use validated frontmatter containing a title, slug, summary, dates, cover, tags, and publication status. Published stories use `/blog/<slug>` URLs.
+
 ## Run the legacy Ghost authoring workflow
 
 Start the local Ghost installation:
@@ -162,11 +174,11 @@ The deployed build reads committed `ghost-data.json` and committed public images
 ## Current routes
 
 - `/` — story gallery
-- `/sakura-near-my-houses`
-- `/midnight-in-shinjuku`
-- `/coming-soon`
+- `/blog/sakura-near-my-houses`
+- `/blog/midnight-in-shinjuku`
+- `/blog/coming-soon`
 
-The planned route format is `/blog/[slug]`, with redirects retained for existing shared links.
+The previous top-level story URLs permanently redirect to `/blog/[slug]` so existing shared links continue working.
 
 ## Known transitional limitations
 
