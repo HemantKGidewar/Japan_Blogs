@@ -25,7 +25,7 @@ sync.js
 
 Ghost is currently a temporary local authoring dependency. The frontend reads cached post data and local WebP images, so the deployed application does not require a running Ghost server.
 
-The planned architecture replaces Ghost with MDX posts and reusable responsive collage components. See the local project plan in `PROJECT_PLAN.local.md`; that file is intentionally ignored by Git.
+New stories can now be written as MDX and assembled with reusable responsive collage components. Ghost remains only as a temporary source for the existing stories. See the local project plan in `PROJECT_PLAN.local.md`; that file is intentionally ignored by Git.
 
 ## Prerequisites
 
@@ -84,6 +84,22 @@ npm run new:post -- kyoto-at-night
 This creates `next-frontend/content/kyoto-at-night/post.mdx` and an accompanying image directory. New posts start with `status: draft`; drafts appear locally but are excluded from production builds. Change the status to `published` only when the story is ready.
 
 MDX posts use validated frontmatter containing a title, slug, summary, dates, cover, tags, and publication status. Published stories use `/blog/<slug>` URLs.
+
+## Build image collages
+
+`Photo`, `Collage`, and `AutoGallery` are available directly inside every MDX post—no import or inline CSS is needed. Supply the real image dimensions so the browser can reserve space, and always add meaningful alt text:
+
+```mdx
+<Collage layout="large-left" label="Cherry blossoms around Yoga">
+  <Photo src="/images/2026/07/photo-1.webp" alt="Sakura canopy over a quiet street" width={1600} height={1067} />
+  <Photo src="/images/2026/07/photo-2.webp" alt="Petals beside a stone path" width={1067} height={1600} />
+  <Photo src="/images/2026/07/photo-3.webp" alt="Friends beneath cherry trees" width={1600} height={1067} caption="An afternoon walk" focalPoint="top" />
+</Collage>
+```
+
+Available layouts are `single`, `two-column`, `three-column`, `large-left`, `large-right`, `hero-two`, `portrait-pair`, `masonry`, and `film-strip`. Use `<AutoGallery>` in place of `<Collage>` to choose a layout from the photo count and orientation. A photo can be reused in multiple collages by referencing the same `src`; this does not duplicate the image file.
+
+All photos open in an accessible larger view by default. Set `lightbox={false}` for a non-interactive image, `priority` for an important above-the-fold image, or `focalPoint="top-right"` to control cropping. The local draft at `/blog/mdx-workflow-preview` demonstrates every layout when running the development server.
 
 ## Run the legacy Ghost authoring workflow
 
@@ -150,8 +166,10 @@ Original full-resolution photographs should remain in a private photo library or
 .
 ├── ghost-cms/                  Local legacy Ghost installation
 ├── next-frontend/              Next.js application
-│   ├── public/images/          Generated WebP assets
-│   └── src/lib/ghost-data.json Cached published posts
+│   ├── content/                File-based MDX stories
+│   ├── public/images/          Selected/generated WebP assets
+│   ├── src/components/gallery/ Responsive collage components
+│   └── src/lib/ghost-data.json Cached legacy stories
 ├── scripts/                    Image maintenance scripts
 ├── sync.js                     Ghost content and image synchronizer
 └── package.json                Root development commands
@@ -182,8 +200,8 @@ The previous top-level story URLs permanently redirect to `/blog/[slug]` so exis
 
 ## Known transitional limitations
 
-- Creating rich collages currently requires custom HTML inside Ghost content.
 - Ghost must run locally when synchronizing newly published content.
 - The current deployment requires Vercel authentication and is not yet public.
 - A stable production alias or custom domain is not yet configured.
-- The content and image workflow will be migrated to MDX.
+- Existing Ghost stories still need to be migrated to MDX.
+- Image importing and remote object storage are planned but not implemented yet.

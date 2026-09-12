@@ -1,4 +1,5 @@
 import type { MDXComponents } from "mdx/types";
+import { AutoGallery, Collage, Photo } from "@/components/gallery";
 
 const components = {
   h2: ({ children }) => <h2>{children}</h2>,
@@ -9,6 +10,9 @@ const components = {
       {children}
     </a>
   ),
+  AutoGallery,
+  Collage,
+  Photo,
 } satisfies MDXComponents;
 
 export function useMDXComponents(): MDXComponents {

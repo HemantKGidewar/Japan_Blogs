@@ -10,10 +10,89 @@ tags:
 status: draft
 ---
 
-This is a local draft demonstrating the new **MDX authoring workflow**.
+This local-only draft demonstrates every reusable collage layout. Select any photograph to open its larger, keyboard-accessible view.
 
-## File-based stories
+## Single
 
-Post metadata and writing now live together in one readable file. Draft posts appear during local development but are excluded from production builds.
+<Collage layout="single" label="Single full-width photograph">
+  <Photo src="/images/2026/07/20240412_080859.webp" alt="Cherry blossoms lining a quiet street in Naruse" width={1920} height={887} caption="A full-width landscape photograph." priority />
+</Collage>
 
-The next phase will add reusable photo and collage components that can be placed directly inside this content.
+## Two columns
+
+<Collage layout="two-column" label="Two photographs side by side">
+  <Photo src="/images/2026/07/IMG_0665.webp" alt="Cherry blossoms spreading across a blue spring sky" width={1920} height={1440} focalPoint="top" />
+  <Photo src="/images/2026/07/20240412_081519.webp" alt="A pathway beneath mature cherry blossom trees" width={1920} height={1440} />
+</Collage>
+
+## Three columns
+
+<Collage layout="three-column" label="Three vertical photographs">
+  <Photo src="/images/2026/07/IMG_0623.webp" alt="A person standing beneath cherry blossoms" width={1920} height={2560} />
+  <Photo src="/images/2026/07/IMG_0632.webp" alt="Dense pale-pink cherry blossoms against the sky" width={1920} height={2560} focalPoint="top" />
+  <Photo src="/images/2026/07/IMG_0635.webp" alt="Friends enjoying cherry blossom season together" width={1920} height={2560} />
+</Collage>
+
+## Large left
+
+The first photograph is emphasized while the following two are stacked alongside it.
+
+<Collage layout="large-left" label="One large photograph on the left and two stacked photographs on the right">
+  <Photo src="/images/2026/07/IMG_0633.webp" alt="A tall cherry tree covered in spring blossoms" width={1920} height={2560} focalPoint="top" />
+  <Photo src="/images/2026/07/20240412_075352.webp" alt="Morning cherry blossoms beside a residential road" width={1920} height={887} />
+  <Photo src="/images/2026/07/IMG_0665.webp" alt="Cherry blossom branches against a clear sky" width={1920} height={1440} />
+</Collage>
+
+## Large right
+
+The third photograph becomes the large image on the right.
+
+<Collage layout="large-right" label="Two stacked photographs on the left and one large photograph on the right">
+  <Photo src="/images/2026/07/20240412_075352.webp" alt="A residential road framed by cherry blossoms" width={1920} height={887} />
+  <Photo src="/images/2026/07/IMG_0665.webp" alt="Sunlit cherry blossom branches" width={1920} height={1440} />
+  <Photo src="/images/2026/07/IMG_0623.webp" alt="A portrait beneath flowering cherry trees" width={1920} height={2560} focalPoint="top" />
+</Collage>
+
+## Hero with two supporting images
+
+<Collage layout="hero-two" label="Wide hero photograph followed by two supporting photographs">
+  <Photo src="/images/2026/07/20240412_080859.webp" alt="A panoramic street filled with cherry blossoms" width={1920} height={887} />
+  <Photo src="/images/2026/07/IMG_0632.webp" alt="Close view of pale cherry blossoms" width={1920} height={2560} focalPoint="top" />
+  <Photo src="/images/2026/07/IMG_0635.webp" alt="A group portrait during cherry blossom season" width={1920} height={2560} />
+</Collage>
+
+## Portrait pair
+
+<Collage layout="portrait-pair" label="Two portrait photographs">
+  <Photo src="/images/2026/07/20240412_080507.webp" alt="A tall view through flowering cherry branches" width={1848} height={4000} focalPoint="top" />
+  <Photo src="/images/2026/07/20240412_080632.webp" alt="A vertical view of cherry blossoms over a path" width={1920} height={3410} focalPoint="top" />
+</Collage>
+
+## Masonry
+
+<Collage layout="masonry" label="Masonry collection of landscape and portrait photographs">
+  <Photo src="/images/2026/07/20240412_080859.webp" alt="Wide cherry blossom street scene" width={1920} height={887} />
+  <Photo src="/images/2026/07/IMG_0633.webp" alt="Portrait view of a flowering cherry tree" width={1920} height={2560} />
+  <Photo src="/images/2026/07/IMG_0665.webp" alt="Cherry blossoms beneath blue sky" width={1920} height={1440} />
+  <Photo src="/images/2026/07/IMG_0623.webp" alt="Portrait taken beneath cherry blossoms" width={1920} height={2560} />
+  <Photo src="/images/2026/07/20240412_081519.webp" alt="A path surrounded by mature cherry trees" width={1920} height={1440} />
+</Collage>
+
+## Film strip
+
+Swipe horizontally on a phone or scroll on a desktop.
+
+<Collage layout="film-strip" label="Horizontally scrolling film strip">
+  <Photo src="/images/2026/07/20240412_075352.webp" alt="Cherry blossoms beside a quiet morning road" width={1920} height={887} />
+  <Photo src="/images/2026/07/IMG_0632.webp" alt="Vertical cluster of pale cherry blossoms" width={1920} height={2560} />
+  <Photo src="/images/2026/07/IMG_0665.webp" alt="Spreading cherry blossom branches" width={1920} height={1440} />
+</Collage>
+
+## Automatic gallery
+
+`AutoGallery` selects an editorial layout using the number and orientation of its photographs.
+
+<AutoGallery label="Automatically arranged cherry blossom photographs">
+  <Photo src="/images/2026/07/IMG_0623.webp" alt="Portrait beneath a flowering tree" width={1920} height={2560} />
+  <Photo src="/images/2026/07/IMG_0635.webp" alt="Friends gathered under cherry blossoms" width={1920} height={2560} />
+</AutoGallery>
