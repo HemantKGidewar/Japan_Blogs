@@ -24,3 +24,6 @@ Thumbs.db
 # Env Files
 .env
 .env.local
+
+# Local planning notes (reference only; never commit)
+PROJECT_PLAN.local.md
