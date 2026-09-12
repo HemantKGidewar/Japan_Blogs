@@ -1,40 +1,46 @@
 const GhostAdminAPI = require('@tryghost/admin-api');
+const path = require('path');
+const { loadLocalEnv, requireEnv } = require('./scripts/load-env');
+
+loadLocalEnv(__dirname);
 
 const api = new GhostAdminAPI({
-  url: 'http://localhost:2368',
-  key: '69fc8a1c2ecf43317728f870:300e1004b4ca9f031a5854d0951d6334399ef66a6d2e68bf290dcb089d89b621',
+  url: process.env.GHOST_URL || 'http://localhost:2368',
+  key: requireEnv('GHOST_ADMIN_API_KEY'),
   version: 'v5.0'
 });
 
 async function main() {
+  const photosRoot = requireEnv('SAKURA_PHOTOS_DIR');
+  const photo = (...segments) => path.join(photosRoot, ...segments);
   const images = {
     // Yoga
-    cover: '/Users/hemantkumargidewar/Downloads/Sakura/Yoga/IMG_0633.jpeg',
-    tree1: '/Users/hemantkumargidewar/Downloads/Sakura/Yoga/IMG_0665.jpeg',
-    tree2: '/Users/hemantkumargidewar/Downloads/Sakura/Yoga/IMG_0632.jpeg',
-    tree3: '/Users/hemantkumargidewar/Downloads/Sakura/Yoga/IMG_0727.jpeg',
-    me: '/Users/hemantkumargidewar/Downloads/Sakura/Yoga/IMG_0623.jpeg',
-    friends: '/Users/hemantkumargidewar/Downloads/Sakura/Yoga/IMG_0635.jpeg',
+    cover: photo('Yoga', 'IMG_0633.jpeg'),
+    tree1: photo('Yoga', 'IMG_0665.jpeg'),
+    tree2: photo('Yoga', 'IMG_0632.jpeg'),
+    tree3: photo('Yoga', 'IMG_0727.jpeg'),
+    me: photo('Yoga', 'IMG_0623.jpeg'),
+    friends: photo('Yoga', 'IMG_0635.jpeg'),
     // Naruse
-    naruse1: '/Users/hemantkumargidewar/Downloads/Sakura/Naruse/20240412_075352.jpg',
-    naruse2: '/Users/hemantkumargidewar/Downloads/Sakura/Naruse/20240412_080507.jpg',
-    naruse3: '/Users/hemantkumargidewar/Downloads/Sakura/Naruse/20240412_080859.jpg',
-    naruse4: '/Users/hemantkumargidewar/Downloads/Sakura/Naruse/IMG_5728.JPG',
-    naruse5: '/Users/hemantkumargidewar/Downloads/Sakura/Naruse/IMG_5737.JPG',
-    naruse6: '/Users/hemantkumargidewar/Downloads/Sakura/Naruse/IMG_5738.JPG',
-    naruse7: '/Users/hemantkumargidewar/Downloads/Sakura/Naruse/20240412_080632.jpg',
-    naruse8: '/Users/hemantkumargidewar/Downloads/Sakura/Naruse/20240412_081519.jpg',
-    naruse9: '/Users/hemantkumargidewar/Downloads/Sakura/Naruse/20240412_081504.jpg',
+    naruse1: photo('Naruse', '20240412_075352.jpg'),
+    naruse2: photo('Naruse', '20240412_080507.jpg'),
+    naruse3: photo('Naruse', '20240412_080859.jpg'),
+    naruse4: photo('Naruse', 'IMG_5728.JPG'),
+    naruse5: photo('Naruse', 'IMG_5737.JPG'),
+    naruse6: photo('Naruse', 'IMG_5738.JPG'),
+    naruse7: photo('Naruse', '20240412_080632.jpg'),
+    naruse8: photo('Naruse', '20240412_081519.jpg'),
+    naruse9: photo('Naruse', '20240412_081504.jpg'),
     // Nakayama
-    nakayama1: '/Users/hemantkumargidewar/Downloads/Sakura/Nakayama/20260405_133523.jpg',
-    nakayama2: '/Users/hemantkumargidewar/Downloads/Sakura/Nakayama/IMG_1632.JPG',
-    nakayama3: '/Users/hemantkumargidewar/Downloads/Sakura/Nakayama/IMG_1703.JPG',
-    nakayama4: '/Users/hemantkumargidewar/Downloads/Sakura/Nakayama/IMG_9016.JPG',
-    nakayama5: '/Users/hemantkumargidewar/Downloads/Sakura/Nakayama/IMG_9029.JPG',
-    nakayama6: '/Users/hemantkumargidewar/Downloads/Sakura/Nakayama/IMG_9031.JPG',
-    nakayama7: '/Users/hemantkumargidewar/Downloads/Sakura/Nakayama/IMG_9051.JPG',
-    nakayama8: '/Users/hemantkumargidewar/Downloads/Sakura/Nakayama/Image.jpeg',
-    nakayama9: '/Users/hemantkumargidewar/Downloads/Sakura/Nakayama/IMG_9042.JPG',
+    nakayama1: photo('Nakayama', '20260405_133523.jpg'),
+    nakayama2: photo('Nakayama', 'IMG_1632.JPG'),
+    nakayama3: photo('Nakayama', 'IMG_1703.JPG'),
+    nakayama4: photo('Nakayama', 'IMG_9016.JPG'),
+    nakayama5: photo('Nakayama', 'IMG_9029.JPG'),
+    nakayama6: photo('Nakayama', 'IMG_9031.JPG'),
+    nakayama7: photo('Nakayama', 'IMG_9051.JPG'),
+    nakayama8: photo('Nakayama', 'Image.jpeg'),
+    nakayama9: photo('Nakayama', 'IMG_9042.JPG'),
   };
 
   const dates = {

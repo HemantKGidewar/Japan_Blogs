@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
+const { loadLocalEnv, requireEnv } = require('./scripts/load-env');
 
 const projectRoot = __dirname;
 const ghostImagesDir = path.join(projectRoot, 'ghost-cms', 'content', 'images');
@@ -9,18 +10,11 @@ const nextImagesDir = path.join(projectRoot, 'next-frontend', 'public', 'images'
 const postsFile = path.join(projectRoot, 'next-frontend', 'src', 'lib', 'ghost-data.json');
 
 function readConfig() {
-  const envPath = path.join(projectRoot, 'env.json');
-  const defaults = {
-    GHOST_URL: 'http://localhost:2368',
+  loadLocalEnv(projectRoot);
+  return {
+    GHOST_URL: process.env.GHOST_URL || 'http://localhost:2368',
+    CONTENT_API_KEY: requireEnv('GHOST_CONTENT_API_KEY'),
   };
-
-  const config = fs.existsSync(envPath)
-    ? { ...defaults, ...JSON.parse(fs.readFileSync(envPath, 'utf8')) }
-    : defaults;
-  if (!config.CONTENT_API_KEY) {
-    throw new Error('CONTENT_API_KEY is required in env.json to sync posts from Ghost.');
-  }
-  return config;
 }
 
 function visitStrings(value, callback) {

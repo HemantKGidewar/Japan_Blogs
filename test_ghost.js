@@ -1,7 +1,10 @@
 const GhostAdminAPI = require('@tryghost/admin-api');
+const { loadLocalEnv, requireEnv } = require('./scripts/load-env');
+
+loadLocalEnv(__dirname);
 const api = new GhostAdminAPI({
-  url: 'http://localhost:2368',
-  key: '69fc8a1c2ecf43317728f870:300e1004b4ca9f031a5854d0951d6334399ef66a6d2e68bf290dcb089d89b621',
+  url: process.env.GHOST_URL || 'http://localhost:2368',
+  key: requireEnv('GHOST_ADMIN_API_KEY'),
   version: 'v5.0'
 });
 async function main() {

@@ -1,54 +1,46 @@
-// @ts-ignore
-import ghostData from './ghost-data.json';
+import ghostData from "./ghost-data.json";
 
-/**
- * Replaces localhost Ghost URLs with relative Next.js paths, 
- * and changes image extensions to .webp to match the sync.js pipeline.
- */
-function rewriteImageUrls(html: string | null) {
+export interface GhostTag {
+  id?: string;
+  name: string;
+  slug?: string;
+}
+
+export interface GhostPost {
+  id: string;
+  slug: string;
+  title: string;
+  html: string | null;
+  feature_image: string | null;
+  published_at: string | null;
+  tags: GhostTag[];
+}
+
+function rewriteImageUrls(html: string | null): string | null {
   if (!html) return html;
-  
-  // Replace absolute ghost url with /images/
-  let processed = html.replace(/http:\/\/localhost:2368\/content\/images\//g, '/images/');
-  
-  // Replace .jpg, .jpeg, .png with .webp
-  processed = processed.replace(/(\/images\/[^"]+)\.(jpg|jpeg|png|PNG|JPG|JPEG)/gi, '$1.webp');
-  
-  return processed;
+
+  return html
+    .replace(/http:\/\/localhost:2368\/content\/images\//g, "/images/")
+    .replace(/(\/images\/[^"?]+)\.(jpg|jpeg|png)/gi, "$1.webp");
 }
 
-export async function getPosts() {
-  try {
-    const posts = ghostData as any[];
-    
-    return posts.map(post => {
-      if (post.feature_image) {
-        post.feature_image = post.feature_image
-          .replace(/http:\/\/localhost:2368\/content\/images\//, '/images/')
-          .replace(/\.(jpg|jpeg|png|PNG|JPG|JPEG)$/i, '.webp');
-      }
-      return post;
-    });
-  } catch (err) {
-    console.warn("Error reading posts from ghost-data.json:", err);
-    return [];
-  }
+function normalizePost(post: GhostPost): GhostPost {
+  return {
+    ...post,
+    html: rewriteImageUrls(post.html),
+    feature_image: post.feature_image
+      ? rewriteImageUrls(post.feature_image)
+      : null,
+  };
 }
 
-export async function getPostBySlug(slug: string) {
-  const posts = ghostData as any[];
-  const post = posts.find(p => p.slug === slug);
-  
-  if (!post) return null;
-  
-  if (post.html) {
-    post.html = rewriteImageUrls(post.html);
-  }
-  if (post.feature_image) {
-    post.feature_image = post.feature_image
-      .replace(/http:\/\/localhost:2368\/content\/images\//, '/images/')
-      .replace(/\.(jpg|jpeg|png|PNG|JPG|JPEG)$/i, '.webp');
-  }
-  
-  return post;
+const posts = ghostData as unknown as GhostPost[];
+
+export async function getPosts(): Promise<GhostPost[]> {
+  return posts.map(normalizePost);
+}
+
+export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
+  const post = posts.find((candidate) => candidate.slug === slug);
+  return post ? normalizePost(post) : null;
 }

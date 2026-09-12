@@ -1,4 +1,5 @@
 import { getPosts } from '@/lib/ghost';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default async function Home() {
@@ -17,14 +18,16 @@ export default async function Home() {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post: any) => (
+          {posts.map((post) => (
             <Link key={post.id} href={`/${post.slug}`} className="group block space-y-5">
               <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-gray-900 border border-gray-800 shadow-2xl">
                 {post.feature_image ? (
-                  <img
+                  <Image
                     src={post.feature_image}
                     alt={post.title}
-                    className="object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-105"
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-gray-700">No Image</div>
@@ -36,7 +39,7 @@ export default async function Home() {
                   {post.title}
                 </h2>
                 {post.tags && post.tags.length > 0 && (
-                  <p className="text-sm text-gray-500 mt-1">{post.tags.map((t: any) => t.name).join(' • ')}</p>
+                  <p className="text-sm text-gray-500 mt-1">{post.tags.map((tag) => tag.name).join(' • ')}</p>
                 )}
               </div>
             </Link>

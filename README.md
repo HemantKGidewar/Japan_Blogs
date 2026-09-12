@@ -49,16 +49,13 @@ The repository currently has separate root and frontend lockfiles, so both insta
 
 ## Environment
 
-The legacy sync process expects `env.json` in the repository root with:
+Copy the environment template and fill in the local Ghost credentials:
 
-```json
-{
-  "CONTENT_API_KEY": "your-ghost-content-api-key",
-  "GHOST_URL": "http://localhost:2368"
-}
+```bash
+cp .env.example .env.local
 ```
 
-Do not add real credentials to new documentation, scripts, or commits. Moving the existing configuration to an ignored environment file is a pending security task.
+The legacy sync process reads `GHOST_URL` and `GHOST_CONTENT_API_KEY`. Legacy Admin API scripts additionally require `GHOST_ADMIN_API_KEY`. `.env.local` is ignored by Git and must never be committed.
 
 ## Run the website locally
 
@@ -175,8 +172,6 @@ The planned route format is `/blog/[slug]`, with redirects retained for existing
 
 - Creating rich collages currently requires custom HTML inside Ghost content.
 - Ghost must run locally when synchronizing newly published content.
-- TypeScript build errors are temporarily ignored.
-- The Next.js configuration contains a deprecated ESLint option.
 - The current deployment requires Vercel authentication and is not yet public.
 - A stable production alias or custom domain is not yet configured.
 - The content and image workflow will be migrated to MDX.

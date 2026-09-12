@@ -1,24 +1,22 @@
 import { getPostBySlug, getPosts } from '@/lib/ghost';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
   const posts = await getPosts();
-  return posts.map((post: any) => ({
+  return posts.map((post) => ({
     slug: post.slug,
   }));
 }
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
-  try {
-    const { slug } = await params;
-    const post = await getPostBySlug(slug);
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
 
-    if (!post) {
-      return notFound();
-    }
+  if (!post) notFound();
 
-    return (
+  return (
       <main className="min-h-screen bg-[#0a0a0a] text-gray-200">
         <div className="max-w-4xl mx-auto px-6 py-20">
           <Link href="/" className="inline-block text-gray-500 hover:text-white transition-colors mb-16 uppercase tracking-widest text-xs font-semibold">
@@ -36,7 +34,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               {post.tags && post.tags.length > 0 && (
                 <>
                   <span>•</span>
-                  <span>{post.tags.map((t: any) => t.name).join(', ')}</span>
+                  <span>{post.tags.map((tag) => tag.name).join(', ')}</span>
                 </>
               )}
             </div>
@@ -44,9 +42,12 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
           {post.feature_image && (
             <div className="w-full mb-16 rounded-xl overflow-hidden bg-gray-900 shadow-2xl">
-              <img 
-                src={post.feature_image} 
+              <Image
+                src={post.feature_image}
                 alt={post.title}
+                width={1920}
+                height={1080}
+                sizes="(min-width: 896px) 848px, calc(100vw - 3rem)"
                 className="w-full h-auto object-contain"
               />
             </div>
@@ -58,8 +59,5 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           />
         </div>
       </main>
-    );
-  } catch (err) {
-    return notFound();
-  }
+  );
 }

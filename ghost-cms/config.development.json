@@ -7,7 +7,7 @@
   "database": {
     "client": "sqlite3",
     "connection": {
-      "filename": "/Users/hemantkumargidewar/Documents/Japan_Blogs/ghost-cms/content/data/ghost-local.db"
+      "filename": "content/data/ghost-local.db"
     }
   },
   "mail": {
@@ -24,6 +24,6 @@
     "staffDeviceVerification": false
   },
   "paths": {
-    "contentPath": "/Users/hemantkumargidewar/Documents/Japan_Blogs/ghost-cms/content"
+    "contentPath": "content"
   }
 }

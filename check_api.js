@@ -1,8 +1,11 @@
 const GhostContentAPI = require('@tryghost/content-api');
+const { loadLocalEnv, requireEnv } = require('./scripts/load-env');
+
+loadLocalEnv(__dirname);
 
 const api = new GhostContentAPI({
-  url: 'http://localhost:2368',
-  key: '22fdfffaebd3321258e71c3a3a', // From .env.local
+  url: process.env.GHOST_URL || 'http://localhost:2368',
+  key: requireEnv('GHOST_CONTENT_API_KEY'),
   version: "v5.0"
 });
 

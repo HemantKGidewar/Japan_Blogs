@@ -1,17 +1,23 @@
 const GhostAdminAPI = require('@tryghost/admin-api');
+const path = require('path');
+const { loadLocalEnv, requireEnv } = require('./scripts/load-env');
+
+loadLocalEnv(__dirname);
 
 const api = new GhostAdminAPI({
-  url: 'http://localhost:2368',
-  key: '69fc8a1c2ecf43317728f870:300e1004b4ca9f031a5854d0951d6334399ef66a6d2e68bf290dcb089d89b621',
+  url: process.env.GHOST_URL || 'http://localhost:2368',
+  key: requireEnv('GHOST_ADMIN_API_KEY'),
   version: 'v5.0'
 });
 
 async function main() {
   try {
-    const imagePath = '/Users/hemantkumargidewar/.gemini/antigravity/brain/ee6bbede-4e9e-4c72-8fbc-8f0946701ca8/sakura_dummy_1778219942580.png';
+    const imagePath = process.argv[2];
+    if (!imagePath) throw new Error('Usage: node generate_post_template.js /absolute/path/to/cover-image');
+    const resolvedImagePath = path.resolve(imagePath);
     console.log('Uploading image...');
     const uploadedImage = await api.images.upload({
-      file: imagePath,
+      file: resolvedImagePath,
       purpose: 'image'
     });
 
