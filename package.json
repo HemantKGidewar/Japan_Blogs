@@ -5,6 +5,8 @@
   "scripts": {
     "dev:ghost": "cd ghost-cms && ghost start",
     "dev:next": "cd next-frontend && npm run dev",
+    "images:dedupe": "node scripts/dedupe-images.js",
+    "images:dedupe:apply": "node scripts/dedupe-images.js --apply",
     "publish": "node sync.js && cd next-frontend && npm run build"
   },
   "author": "",
