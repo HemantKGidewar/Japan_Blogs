@@ -93,16 +93,18 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         </header>
 
         {metadata.cover && (
-          <div className={styles.cover}>
+          <figure className={styles.cover}>
             <Image
               src={metadata.cover}
               alt={metadata.title}
-              fill
+              width={metadata.coverWidth || 1920}
+              height={metadata.coverHeight || 1080}
               sizes="(min-width: 896px) 848px, calc(100vw - 3rem)"
               className={styles.coverImage}
               priority
             />
-          </div>
+            {metadata.coverCaption && <figcaption className={styles.coverCaption}>{metadata.coverCaption}</figcaption>}
+          </figure>
         )}
 
         <article className={`blog-content ${styles.article}`}>

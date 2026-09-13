@@ -174,8 +174,7 @@ Production uses Vercel Standard Protection: the stable production domain is publ
 ## Current routes
 
 - `/` — story gallery
-- `/blog/sakura-near-my-houses` — migrated MDX photo story
-- `/blog/midnight-in-shinjuku` — MDX photo story
+- `/blog/sakura-near-my-houses` — published MDX photo story
 
 Development mode also exposes the draft-only `/blog/mdx-workflow-preview` component gallery and `/blog/sakura-layout-stress` 40-photo performance check. Draft routes are excluded from production builds.
 

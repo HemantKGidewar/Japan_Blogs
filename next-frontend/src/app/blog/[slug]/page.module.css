@@ -4,11 +4,12 @@
 .back:hover { color: #f5f1eb; }
 .header { margin-bottom: 3.5rem; }
 .draft { margin-bottom: 1rem; color: #fbbf24; font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
-.header h1 { max-width: 13ch; color: #f7f3ed; font-size: clamp(3rem, 8vw, 6.6rem); font-weight: 620; letter-spacing: -.065em; line-height: .92; }
+.header h1 { max-width: 15ch; overflow-wrap: break-word; color: #f7f3ed; font-size: clamp(2.7rem, 8vw, 6.2rem); font-weight: 620; letter-spacing: -.055em; line-height: .96; }
 .summary { max-width: 39rem; margin-top: 1.75rem; color: #aaa4a0; font-size: clamp(1.05rem, 2vw, 1.25rem); line-height: 1.65; }
 .meta { display: flex; flex-wrap: wrap; gap: .5rem .9rem; margin-top: 1.5rem; color: #756f6b; font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; }
-.cover { position: relative; width: 100%; aspect-ratio: 16 / 10; margin-bottom: 5rem; overflow: hidden; border-radius: 1rem; background: #171514; box-shadow: 0 30px 80px rgb(0 0 0 / 35%); }
-.coverImage { object-fit: cover; }
+.cover { width: 100%; margin-bottom: 5rem; overflow: hidden; border-radius: 1rem; background: #171514; box-shadow: 0 30px 80px rgb(0 0 0 / 35%); }
+.coverImage { display: block; width: 100%; height: auto; object-fit: contain; }
+.coverCaption { padding: .8rem 1rem .9rem; color: #918b87; font-size: .78rem; font-style: italic; line-height: 1.5; text-align: center; }
 .article { color: #c4c0bc; font-size: clamp(1.05rem, 2vw, 1.16rem); line-height: 1.8; }
 .storyNav { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 7rem; border-top: 1px solid #292625; padding-top: 2rem; }
 .storyNav a:last-child { text-align: right; }

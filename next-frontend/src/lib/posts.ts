@@ -17,8 +17,15 @@ const postMetadataSchema = z.object({
   takenDate: z.string().regex(isoDate, "Use YYYY-MM-DD").optional(),
   publishedDate: z.string().regex(isoDate, "Use YYYY-MM-DD"),
   cover: z.string().trim().min(1).nullable().optional(),
+  coverWidth: z.number().int().positive().optional(),
+  coverHeight: z.number().int().positive().optional(),
+  coverCaption: z.string().trim().min(1).optional(),
   tags: z.array(z.string().trim().min(1)).default([]),
   status: z.enum(["draft", "published"]),
+}).superRefine((metadata, context) => {
+  if (metadata.cover && (!metadata.coverWidth || !metadata.coverHeight)) {
+    context.addIssue({ code: "custom", message: "A cover image requires coverWidth and coverHeight." });
+  }
 });
 
 export type PostMetadata = z.infer<typeof postMetadataSchema>;

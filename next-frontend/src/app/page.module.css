@@ -2,14 +2,14 @@
 .shell { width: min(100% - 2rem, 88rem); margin-inline: auto; }
 .hero { min-height: min(48rem, 92vh); display: flex; flex-direction: column; justify-content: center; padding-block: 6rem; }
 .eyebrow { color: #e9a2b4; font-size: .72rem; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; }
-.hero h1 { max-width: 10ch; margin-top: 1.25rem; font-size: clamp(3.8rem, 11vw, 9.5rem); font-weight: 620; letter-spacing: -.075em; line-height: .78; }
+.hero h1 { max-width: 10ch; overflow-wrap: break-word; margin-top: 1.25rem; font-size: clamp(3rem, 11vw, 9.5rem); font-weight: 620; letter-spacing: -.065em; line-height: .88; }
 .hero h1 span { color: #918a85; }
 .intro { max-width: 35rem; margin-top: 2.5rem; color: #aaa4a0; font-size: clamp(1.05rem, 2vw, 1.35rem); line-height: 1.65; }
 .explore { width: fit-content; margin-top: 2.25rem; border-bottom: 1px solid #45403e; padding-bottom: .35rem; color: #ddd8d2; font-size: .85rem; }
 .explore span { margin-left: .5rem; color: #e9a2b4; }
 .stories { scroll-margin-top: 2rem; padding-block: 5rem 8rem; border-top: 1px solid #292625; }
 .sectionHeader { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 3rem; }
-.sectionHeader h2 { margin-top: .55rem; font-size: clamp(2.25rem, 5vw, 4rem); letter-spacing: -.05em; }
+.sectionHeader h2 { overflow-wrap: anywhere; margin-top: .55rem; font-size: clamp(2.25rem, 5vw, 4rem); letter-spacing: -.05em; line-height: 1; }
 .sectionHeader > p { color: #77716d; font-size: .85rem; }
 .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2.5rem, 6vw, 6rem) clamp(1rem, 4vw, 3rem); }
 .card:nth-child(4n + 2) { margin-top: 6rem; }
@@ -23,7 +23,7 @@
 .cardBody { padding-top: 1.25rem; }
 .meta { display: flex; justify-content: space-between; gap: 1rem; color: #827c78; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; }
 .draft { color: #fbbf24; }
-.card h3 { margin-top: .65rem; font-size: clamp(1.55rem, 3vw, 2.25rem); font-weight: 570; letter-spacing: -.035em; }
+.card h3 { overflow-wrap: anywhere; margin-top: .65rem; font-size: clamp(1.55rem, 3vw, 2.25rem); font-weight: 570; letter-spacing: -.035em; line-height: 1.12; }
 .summary { max-width: 38rem; margin-top: .75rem; color: #99938f; line-height: 1.65; }
 .tags { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1rem; list-style: none; }
 .tags li { border: 1px solid #34302e; border-radius: 999px; padding: .3rem .65rem; color: #aaa4a0; font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; }
@@ -35,9 +35,11 @@
 @media (max-width: 699px) {
   .shell { width: min(100% - 1.25rem, 88rem); }
   .hero { min-height: 42rem; }
+  .hero h1 { font-size: clamp(2.8rem, 15vw, 4.5rem); line-height: .92; }
   .grid { grid-template-columns: 1fr; }
   .card:nth-child(4n + 2) { margin-top: 0; }
   .sectionHeader { align-items: start; flex-direction: column; }
+  .meta { align-items: flex-start; flex-direction: column; gap: .4rem; }
   .read { translate: 0; opacity: 1; }
   .footer { flex-direction: column; }
 }
