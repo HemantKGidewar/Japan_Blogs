@@ -13,6 +13,7 @@ const projectRoot = path.resolve(__dirname, "..");
 const postDirectory = path.join(projectRoot, "next-frontend", "content", slug);
 const postFile = path.join(postDirectory, "post.mdx");
 const imagesDirectory = path.join(postDirectory, "images");
+const sourceDirectory = path.join(postDirectory, "source-photos");
 
 if (fs.existsSync(postDirectory)) {
   console.error(`A post directory already exists: ${postDirectory}`);
@@ -35,16 +36,20 @@ tags: []
 status: draft
 ---
 
-Start writing your story here.
+Start writing your story here. Put selected originals in this post's source-photos directory, then run:
+
+\`npm run images:import -- content/${slug}/source-photos\`
 
 ## First section
 
-Add more text here. Photo and collage components will be added in Phase 3.
+Add photos from the generated images.json manifest using Photo, Collage, or AutoGallery.
 `;
 
 fs.mkdirSync(imagesDirectory, { recursive: true });
+fs.mkdirSync(sourceDirectory, { recursive: true });
 fs.writeFileSync(postFile, template);
 fs.writeFileSync(path.join(imagesDirectory, ".gitkeep"), "");
+fs.writeFileSync(path.join(sourceDirectory, ".gitkeep"), "Selected full-resolution originals placed here are ignored by Git.\n");
 
 console.log(`Created draft: ${path.relative(projectRoot, postFile)}`);
 console.log("Run npm run dev:next to preview it locally.");

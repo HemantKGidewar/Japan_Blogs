@@ -29,3 +29,6 @@ env.json
 
 # Local planning notes (reference only; never commit)
 PROJECT_PLAN.local.md
+
+# Full-resolution authoring inputs (keep in a private photo library/backup)
+next-frontend/content/**/source-photos/

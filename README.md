@@ -101,6 +101,27 @@ Available layouts are `single`, `two-column`, `three-column`, `large-left`, `lar
 
 All photos open in an accessible larger view by default. Set `lightbox={false}` for a non-interactive image, `priority` for an important above-the-fold image, or `focalPoint="top-right"` to control cropping. The local draft at `/blog/mdx-workflow-preview` demonstrates every layout when running the development server.
 
+## Import photos for a post
+
+Keep original photographs backed up outside this repository. Copy only the selected originals for the current story into its ignored authoring directory, then import them:
+
+```bash
+cp /path/to/selected/photos/* next-frontend/content/kyoto-at-night/source-photos/
+npm run images:import -- content/kyoto-at-night/source-photos
+```
+
+The importer auto-rotates from EXIF orientation, limits the web image to 2560 px, creates a 640 px thumbnail and tiny blur placeholder, and uses the original file's SHA-256 hash as its stable asset name. Running it again processes only new or changed files. Identical originals share one generated asset, including when they are selected for different posts.
+
+The command updates `next-frontend/content/<slug>/images.json`. Add meaningful `alt` text and optional captions there, then use its `src`, `width`, and `height` values in the post's `<Photo>` elements. Commit the manifest and generated files under `next-frontend/public/images/library/`; never commit `source-photos/`.
+
+Review generated files no longer referenced by a manifest without deleting anything:
+
+```bash
+npm run images:orphans
+```
+
+Run the pipeline regression tests with `npm run images:test`.
+
 ## Run the legacy Ghost authoring workflow
 
 Start the local Ghost installation:
@@ -167,7 +188,7 @@ Original full-resolution photographs should remain in a private photo library or
 ├── ghost-cms/                  Local legacy Ghost installation
 ├── next-frontend/              Next.js application
 │   ├── content/                File-based MDX stories
-│   ├── public/images/          Selected/generated WebP assets
+│   ├── public/images/library/  Hash-addressed WebP assets and thumbnails
 │   ├── src/components/gallery/ Responsive collage components
 │   └── src/lib/ghost-data.json Cached legacy stories
 ├── scripts/                    Image maintenance scripts

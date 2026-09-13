@@ -7,6 +7,9 @@
     "dev:next": "cd next-frontend && npm run dev",
     "images:dedupe": "node scripts/dedupe-images.js",
     "images:dedupe:apply": "node scripts/dedupe-images.js --apply",
+    "images:import": "node scripts/import-images.js",
+    "images:orphans": "node scripts/import-images.js --orphans",
+    "images:test": "node --test scripts/import-images.test.js",
     "new:post": "node scripts/new-post.js",
     "publish": "node sync.js && cd next-frontend && npm run build"
   },
