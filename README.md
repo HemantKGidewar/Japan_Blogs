@@ -12,26 +12,21 @@ The URL above identifies the currently verified production deployment, but deplo
 ## Current architecture
 
 ```text
-Local Ghost CMS
-    ↓ Content API
-sync.js
-    ├── next-frontend/src/lib/ghost-data.json
-    └── next-frontend/public/images/*.webp
-            ↓
+MDX stories + image manifests
+              ↓
+Responsive collage components
+              ↓
        Next.js frontend
-            ↓
-          Vercel
+              ↓
+           Vercel
 ```
 
-Ghost is currently a temporary local authoring dependency. The frontend reads cached post data and local WebP images, so the deployed application does not require a running Ghost server.
-
-New stories can now be written as MDX and assembled with reusable responsive collage components. Ghost remains only as a temporary source for the existing stories. See the local project plan in `PROJECT_PLAN.local.md`; that file is intentionally ignored by Git.
+Stories are MDX files assembled with reusable responsive collage components. Selected, web-ready images are stored locally for now; full-resolution originals remain outside Git. The site has no Ghost or database dependency. See the intentionally ignored `PROJECT_PLAN.local.md` for the local roadmap.
 
 ## Prerequisites
 
 - Node.js 20 or newer
 - npm
-- Ghost CLI, only while the legacy Ghost workflow remains in use
 - Git and optional GitHub CLI (`gh`)
 
 ## Install
@@ -47,22 +42,12 @@ cd ..
 
 The repository currently has separate root and frontend lockfiles, so both installations are required.
 
-## Environment
-
-Copy the environment template and fill in the local Ghost credentials:
-
-```bash
-cp .env.example .env.local
-```
-
-The legacy sync process reads `GHOST_URL` and `GHOST_CONTENT_API_KEY`. Legacy Admin API scripts additionally require `GHOST_ADMIN_API_KEY`. `.env.local` is ignored by Git and must never be committed.
-
 ## Run the website locally
 
-The Next.js frontend uses the already-cached content and images, so Ghost is not required for normal frontend development:
+From the repository root:
 
 ```bash
-npm run dev:next
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
@@ -122,30 +107,6 @@ npm run images:orphans
 
 Run the pipeline regression tests with `npm run images:test`.
 
-## Run the legacy Ghost authoring workflow
-
-Start the local Ghost installation:
-
-```bash
-npm run dev:ghost
-```
-
-Ghost runs at [http://localhost:2368](http://localhost:2368), with its admin interface at [http://localhost:2368/ghost](http://localhost:2368/ghost).
-
-After publishing or updating content in Ghost, open another terminal at the repository root and run:
-
-```bash
-node sync.js
-```
-
-The sync command:
-
-- Fetches published posts from the local Ghost Content API.
-- Finds locally hosted images referenced by those posts.
-- Corrects orientation and converts required images to WebP.
-- Reuses identical generated output rather than producing duplicate files.
-- Updates the cached post data used by Next.js.
-
 ## Build
 
 Build the frontend from the repository root:
@@ -154,7 +115,7 @@ Build the frontend from the repository root:
 npm run publish
 ```
 
-This legacy command requires Ghost to be running because it synchronizes content before building.
+This validates and builds the file-based site without a CMS or database.
 
 To build only the currently cached frontend:
 
@@ -163,36 +124,18 @@ cd next-frontend
 npm run build
 ```
 
-## Image maintenance
-
-Preview exact duplicate-image cleanup:
-
-```bash
-npm run images:dedupe
-```
-
-Apply the audited cleanup:
-
-```bash
-npm run images:dedupe:apply
-```
-
-The deduplication command hashes file contents and protects image filenames referenced by the cached Ghost data. Run the dry-run command before applying removals.
-
 Original full-resolution photographs should remain in a private photo library or backup. The repository should contain only selected web-ready images until remote image storage is introduced.
 
 ## Project structure
 
 ```text
 .
-├── ghost-cms/                  Local legacy Ghost installation
 ├── next-frontend/              Next.js application
 │   ├── content/                File-based MDX stories
 │   ├── public/images/library/  Hash-addressed WebP assets and thumbnails
 │   ├── src/components/gallery/ Responsive collage components
-│   └── src/lib/ghost-data.json Cached legacy stories
-├── scripts/                    Image maintenance scripts
-├── sync.js                     Ghost content and image synchronizer
+│   └── src/lib/posts.ts        Validated MDX post loader
+├── scripts/                    Post and image workflow scripts
 └── package.json                Root development commands
 ```
 
@@ -208,14 +151,13 @@ Root directory: next-frontend
 Build command: npm run build
 ```
 
-The deployed build reads committed `ghost-data.json` and committed public images. It does not contact the local Ghost server during a Vercel build.
+The deployed build reads committed MDX and web-ready images. It does not contact a CMS or database.
 
 ## Current routes
 
 - `/` — story gallery
 - `/blog/sakura-near-my-houses` — migrated MDX photo story
-- `/blog/midnight-in-shinjuku`
-- `/blog/coming-soon`
+- `/blog/midnight-in-shinjuku` — MDX photo story
 
 Development mode also exposes the draft-only `/blog/mdx-workflow-preview` component gallery and `/blog/sakura-layout-stress` 40-photo performance check. Draft routes are excluded from production builds.
 
@@ -223,8 +165,6 @@ The previous top-level story URLs permanently redirect to `/blog/[slug]` so exis
 
 ## Known transitional limitations
 
-- Ghost must run locally when synchronizing newly published content.
 - The current deployment requires Vercel authentication and is not yet public.
 - A stable production alias or custom domain is not yet configured.
-- Existing Ghost stories still need to be migrated to MDX.
-- Image importing and remote object storage are planned but not implemented yet.
+- Remote object storage is intentionally deferred until the optimized Git image library becomes cumbersome.

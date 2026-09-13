@@ -3,20 +3,20 @@
   "version": "1.0.0",
   "description": "Root workspace for the Japan Time-Capsule Blog",
   "scripts": {
-    "dev:ghost": "cd ghost-cms && ghost start",
-    "dev:next": "cd next-frontend && npm run dev",
-    "images:dedupe": "node scripts/dedupe-images.js",
-    "images:dedupe:apply": "node scripts/dedupe-images.js --apply",
+    "dev": "cd next-frontend && npm run dev",
+    "dev:next": "npm run dev",
     "images:import": "node scripts/import-images.js",
     "images:orphans": "node scripts/import-images.js --orphans",
     "images:test": "node --test scripts/import-images.test.js",
     "new:post": "node scripts/new-post.js",
-    "publish": "node sync.js && cd next-frontend && npm run build"
+    "lint": "cd next-frontend && npm run lint",
+    "typecheck": "cd next-frontend && npx tsc --noEmit",
+    "build": "cd next-frontend && npm run build",
+    "publish": "npm run build"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tryghost/admin-api": "^1.14.8",
     "sharp": "^0.33.2"
   }
 }

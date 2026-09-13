@@ -6,7 +6,6 @@ import type { MDXComponents } from "mdx/types";
 import type { ComponentType } from "react";
 import { parse as parseYaml } from "yaml";
 import { z } from "zod";
-import { getPostBySlug as getGhostPostBySlug, getPosts as getGhostPosts } from "./ghost";
 
 const isoDate = /^\d{4}-\d{2}-\d{2}$/;
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -25,24 +24,18 @@ const postMetadataSchema = z.object({
 export type PostMetadata = z.infer<typeof postMetadataSchema>;
 
 export interface PostSummary extends PostMetadata {
-  source: "mdx" | "ghost";
+  source: "mdx";
 }
 
 interface MdxModule {
   default: ComponentType<{ components?: MDXComponents }>;
 }
 
-export type BlogPost =
-  | {
-      source: "mdx";
-      metadata: PostMetadata;
-      Content: MdxModule["default"];
-    }
-  | {
-      source: "ghost";
-      metadata: PostMetadata;
-      html: string;
-    };
+export interface BlogPost {
+  source: "mdx";
+  metadata: PostMetadata;
+  Content: MdxModule["default"];
+}
 
 function getMdxSlugs(): string[] {
   const contentDirectory = path.join(process.cwd(), "content");
@@ -93,28 +86,11 @@ async function getMdxPosts(): Promise<BlogPost[]> {
   );
 }
 
-function ghostMetadata(post: Awaited<ReturnType<typeof getGhostPosts>>[number]): PostMetadata {
-  const publishedDate = post.published_at?.slice(0, 10) || "1970-01-01";
-  return {
-    title: post.title,
-    slug: post.slug,
-    summary: post.custom_excerpt || post.excerpt || `A photo story: ${post.title}`,
-    publishedDate,
-    cover: post.feature_image,
-    tags: post.tags.map((tag) => tag.name),
-    status: "published",
-  };
-}
-
 export async function getPostSummaries(includeDrafts = false): Promise<PostSummary[]> {
-  const [mdxPosts, ghostPosts] = await Promise.all([getMdxPosts(), getGhostPosts()]);
+  const mdxPosts = await getMdxPosts();
   const mdxSummaries = mdxPosts.map((post) => ({ ...post.metadata, source: post.source }));
-  const mdxSlugSet = new Set(mdxSummaries.map((post) => post.slug));
-  const legacySummaries = ghostPosts
-    .filter((post) => !mdxSlugSet.has(post.slug))
-    .map((post) => ({ ...ghostMetadata(post), source: "ghost" as const }));
 
-  return [...mdxSummaries, ...legacySummaries]
+  return mdxSummaries
     .filter((post) => includeDrafts || post.status === "published")
     .sort((left, right) => {
       const dateOrder = right.publishedDate.localeCompare(left.publishedDate);
@@ -130,11 +106,5 @@ export async function getBlogPostBySlug(slug: string, includeDrafts = false): Pr
     return { source: "mdx", metadata, Content: mdxModule.default };
   }
 
-  const post = await getGhostPostBySlug(slug);
-  if (!post) return null;
-  return {
-    source: "ghost",
-    metadata: ghostMetadata(post),
-    html: post.html || "",
-  };
+  return null;
 }

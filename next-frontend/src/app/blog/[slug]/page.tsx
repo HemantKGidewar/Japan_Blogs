@@ -60,16 +60,9 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           </div>
         )}
 
-        {post.source === "mdx" ? (
-          <article className="blog-content text-lg leading-relaxed text-gray-300">
-            <post.Content />
-          </article>
-        ) : (
-          <article
-            className="blog-content text-lg leading-relaxed text-gray-300"
-            dangerouslySetInnerHTML={{ __html: post.html }}
-          />
-        )}
+        <article className="blog-content text-lg leading-relaxed text-gray-300">
+          <post.Content />
+        </article>
       </div>
     </main>
   );
