@@ -5,9 +5,9 @@ An image-first photo journal for stories and memories from Japan. The site is a 
 ## Links
 
 - GitHub: [HemantKGidewar/Japan_Blogs](https://github.com/HemantKGidewar/Japan_Blogs)
-- Current verified Vercel deployment: [japan-blogs-69fnw9otr-hemantkumar-gidewars-projects.vercel.app](https://japan-blogs-69fnw9otr-hemantkumar-gidewars-projects.vercel.app) (Vercel authentication currently required)
+- Public website: [japan-blogs.vercel.app](https://japan-blogs.vercel.app)
 
-The URL above identifies the currently verified production deployment, but deployment protection currently redirects visitors to Vercel SSO. Deployment protection must be disabled for production, and a stable project alias or custom domain should be configured before the site is widely shared.
+The stable Vercel production alias is public. Generated deployment and preview URLs remain protected.
 
 ## Current architecture
 
@@ -169,7 +169,7 @@ Before sharing the site from Instagram:
 2. In **Project → Settings → Domains**, assign a stable `*.vercel.app` alias or connect a custom domain.
 3. Set `NEXT_PUBLIC_SITE_URL` for Production to that exact origin and redeploy.
 
-The latest generated production deployment currently redirects to Vercel SSO, so the account-level protection setting must be changed before public sharing.
+Production uses Vercel Standard Protection: the stable production domain is public, while generated deployment and preview URLs remain protected.
 
 ## Current routes
 
@@ -185,6 +185,5 @@ The previous top-level story URLs permanently redirect to `/blog/[slug]` so exis
 
 ## Known transitional limitations
 
-- The current deployment requires Vercel authentication and is not yet public.
-- A stable production alias or custom domain is not yet configured.
+- A custom domain is optional; the stable `japan-blogs.vercel.app` production alias is active.
 - Remote object storage is intentionally deferred until the optimized Git image library becomes cumbersome.

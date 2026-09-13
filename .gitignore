@@ -32,3 +32,5 @@ PROJECT_PLAN.local.md
 
 # Full-resolution authoring inputs (keep in a private photo library/backup)
 next-frontend/content/**/source-photos/
+.vercel
+.env*.local
