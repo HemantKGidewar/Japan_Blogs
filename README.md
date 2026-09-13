@@ -213,9 +213,11 @@ The deployed build reads committed `ghost-data.json` and committed public images
 ## Current routes
 
 - `/` — story gallery
-- `/blog/sakura-near-my-houses`
+- `/blog/sakura-near-my-houses` — migrated MDX photo story
 - `/blog/midnight-in-shinjuku`
 - `/blog/coming-soon`
+
+Development mode also exposes the draft-only `/blog/mdx-workflow-preview` component gallery and `/blog/sakura-layout-stress` 40-photo performance check. Draft routes are excluded from production builds.
 
 The previous top-level story URLs permanently redirect to `/blog/[slug]` so existing shared links continue working.
 
