@@ -42,6 +42,16 @@ cd ..
 
 The repository currently has separate root and frontend lockfiles, so both installations are required.
 
+## Environment
+
+Set the canonical public URL locally only when testing production metadata:
+
+```bash
+cp .env.example .env.local
+```
+
+Set `NEXT_PUBLIC_SITE_URL` to the final public origin in Vercel's Production environment. It is used for canonical links, social previews, structured data, and the sitemap. Vercel's production URL is used as a fallback.
+
 ## Run the website locally
 
 From the repository root:
@@ -153,6 +163,14 @@ Build command: npm run build
 
 The deployed build reads committed MDX and web-ready images. It does not contact a CMS or database.
 
+Before sharing the site from Instagram:
+
+1. In Vercel, open **Project → Settings → Deployment Protection** and make the Production environment publicly accessible. Preview protection can remain enabled.
+2. In **Project → Settings → Domains**, assign a stable `*.vercel.app` alias or connect a custom domain.
+3. Set `NEXT_PUBLIC_SITE_URL` for Production to that exact origin and redeploy.
+
+The latest generated production deployment currently redirects to Vercel SSO, so the account-level protection setting must be changed before public sharing.
+
 ## Current routes
 
 - `/` — story gallery
@@ -160,6 +178,8 @@ The deployed build reads committed MDX and web-ready images. It does not contact
 - `/blog/midnight-in-shinjuku` — MDX photo story
 
 Development mode also exposes the draft-only `/blog/mdx-workflow-preview` component gallery and `/blog/sakura-layout-stress` 40-photo performance check. Draft routes are excluded from production builds.
+
+Published stories provide canonical metadata, large-image Open Graph and Twitter cards, `BlogPosting` structured data, next/previous navigation, and sitemap entries. Drafts are omitted from the sitemap and marked `noindex` in local previews.
 
 The previous top-level story URLs permanently redirect to `/blog/[slug]` so existing shared links continue working.
 
