@@ -171,6 +171,8 @@ Before sharing the site from Instagram:
 
 Production uses Vercel Standard Protection: the stable production domain is public, while generated deployment and preview URLs remain protected.
 
+Vercel Web Analytics is enabled through `@vercel/analytics`. After deployment, page views, top pages, referrers, countries, devices, operating systems, and browsers appear under **Vercel → japan-blogs → Analytics**. Analytics runs in production automatically; local development visits are not counted as production traffic.
+
 ## Current routes
 
 - `/` — story gallery
